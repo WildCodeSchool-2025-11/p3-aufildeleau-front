@@ -6,6 +6,8 @@ import Typography from "@mui/material/Typography";
 import { Route, Link as RouterLink, Routes } from "react-router-dom";
 import About from "./pages/About";
 import Home from "./pages/Home";
+import Dashboard from "./pages/admin/Dashboard";
+import Items from "./pages/admin/Items";
 
 function Copyright() {
 	return (
@@ -42,6 +44,25 @@ export default function App() {
 					>
 						À propos
 					</Link>
+					<Link component={RouterLink} to="/" variant="h6" underline="hover">
+						Login
+					</Link>
+					<Link
+						component={RouterLink}
+						to="/admin/dashboard"
+						variant="h6"
+						underline="hover"
+					>
+						Admin
+					</Link>
+					<Link
+						component={RouterLink}
+						to="/admin/items"
+						variant="h6"
+						underline="hover"
+					>
+						Items
+					</Link>
 				</Stack>
 			</Box>
 
@@ -49,6 +70,8 @@ export default function App() {
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/about" element={<About />} />
+				<Route path="/admin/dashboard" element={<Dashboard />} />
+				<Route path="/admin/items" element={<Items />} />
 			</Routes>
 
 			<Box sx={{ my: 4 }}>
