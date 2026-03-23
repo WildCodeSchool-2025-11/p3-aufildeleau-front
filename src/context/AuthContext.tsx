@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 
 // Etape 1
 const AuthContext = createContext(null);
@@ -6,6 +7,8 @@ const AuthContext = createContext(null);
 // Etape 2
 export default function AuthProvider({ children }) {
   const [isLogin, setIsLogin] = useState(false);
+  const [message, setMessage] = useState('');
+  let navigate = useNavigate();
 
   // Function login
   const handleLogin = async (login, password) => {
@@ -21,9 +24,15 @@ export default function AuthProvider({ children }) {
 
     const data = await resp.json();
 
-    if (resp.ok) {
-      setIsLogin(true);
+    if (resp.status != 200) {
+      setMessage({ message: data.message, status: resp.status});
+      return;
     }
+    
+    setMessage('');
+    setIsLogin(true);
+    localStorage.setItem('token', data.token);
+    navigate('/admin/dashboard')
   };
 
   // Function Création de compte
@@ -48,8 +57,22 @@ export default function AuthProvider({ children }) {
   // Function déconnection
   const handleLogout = () => setIsLogin(false);
 
+
+  const currentUser = async () => {
+    const loginStorage = localStorage.getItem('token');
+    
+    if(true === Boolean(loginStorage)){
+      setIsLogin(true);
+    }
+  }
+
+  useEffect(() => {
+    currentUser();
+  }, [])
+  
+
   return (
-    <AuthContext value={{ isLogin, handleLogin, handleLogout, handleSignup }}>
+    <AuthContext value={{ isLogin, handleLogin, handleLogout, handleSignup, message }}>
       {children}
     </AuthContext>
   );

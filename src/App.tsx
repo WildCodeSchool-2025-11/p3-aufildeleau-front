@@ -97,10 +97,14 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/Login" element={<Login />} />
+        {!isLogin && <Route path="/Login" element={<Login />} />}
         <Route path="/register" element={<Register />} />
-        <Route path="/admin/dashboard" element={<Dashboard />} />
-        <Route path="/admin/items" element={<Items />} />
+        {isLogin && (
+          <>
+            <Route path="/admin/dashboard" element={<Dashboard />} />
+            <Route path="/admin/items" element={<Items />} />
+          </>
+        )}
       </Routes>
 
       <Box sx={{ my: 4 }}>

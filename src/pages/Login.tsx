@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { Box, TextField, Stack, Button } from "@mui/material";
+import { Box, TextField, Stack, Button, Alert } from "@mui/material";
 import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
-  const { handleLogin } = useAuth();
+  const { handleLogin, message } = useAuth();
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("nanar");
 
-  console.log(login)
 
   return (
     <Box mt={10}>
       <Stack direction={"column"} spacing={2}>
+        {message && <Stack><Alert severity="error">{message.message}</Alert></Stack>}
         <Stack>
           <TextField
             name="login"
@@ -32,7 +32,10 @@ const Login = () => {
           />
         </Stack>
         <Stack>
-          <Button variant="contained" onClick={() => handleLogin(login, password)}>
+          <Button
+            variant="contained"
+            onClick={() => handleLogin(login, password)}
+          >
             Login
           </Button>
         </Stack>
